@@ -39,6 +39,16 @@ This tool was developed as part of a research project on **"Digital Preservation
 *   **Technical Supervision:** Prof. Peter AC Nelson
 *   **Artistic Data Source:** Prof. Koon (Traditional Chinese Ink Painting)
 
+## 📥 Download Project Files
+
+The Python script (`ur_control_script.py`) is included in this repository. 
+
+Due to file size limits, the full **Blender Project File (.blend)** with the Geometry Nodes setup is hosted in the **Releases** section.
+
+👉 **[Download the .blend File Here](../../releases/latest)**
+*(Click "Assets" and download the ZIP or .blend file)*
+
+
 ---
 
 ## 📄 License
