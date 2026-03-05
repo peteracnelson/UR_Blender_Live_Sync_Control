@@ -54,7 +54,7 @@ Click the image below to watch the full performance on YouTube:
 
 1.  **Hardware Prep:** Connect your UR Robot via Ethernet and set your computer's IP to static (e.g., `192.168.0.101`).
 2.  **Download:** Get the `.blend` file from Releases and the script from this repo.
-3.  **Open Blender:** Load `UR_Ink_Painting_Demo.blend`.
+3.  **Open Blender:** Load `Ink_painting_write_hello_with_mocap.blend`.
 4.  **Load Script:** Go to the Scripting tab, open `ur_control_script.py`, and run it.
 5.  **Control:** Press **N** in the 3D Viewport to open the sidebar, find the **UR Control** tab, and click **Start**.
 
