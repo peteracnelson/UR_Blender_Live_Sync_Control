@@ -27,7 +27,7 @@ The Python script and documentation are included in this repository.
 | :--- | :--- | :--- |
 | **`ur_control_script.py`** | Main Python control script | [In Repository](./ur_control_script.py) |
 | **`Instruction_Manual.pdf`** | Network setup guide | [In Repository](./Instruction_Manual.pdf) |
-| **`UR_Ink_Painting_Demo.blend`** | **Full Project File (100MB+)** | **[Download from Releases](../../releases/latest)** |
+| **`Ink_painting_write_hello_with_mocap.blend`** | **Full Project File (100MB+)** | **[Download from Releases](../../releases/latest)** |
 
 > *To download the .blend file, click the link above, go to "Assets", and download the ZIP file.*
 
