@@ -36,8 +36,14 @@ PORT_DASH = 29999
 DEF_MAX_SPEED = 0.15   
 DEF_ROT_SMOOTH = 0.10  
 DEF_LOGIC_ENABLE = 'YES'
+
+# Physical Robot Home Position (Safe parking spot: X, Y, Z in meters)
 ROBOT_HOME_POS  = [-0.2983, 0.1314, 0.304]  
-VISUAL_HOME_POS = [-0.2983, 0.1314, 0.219]  
+
+# Visual Tool Offset (Z-axis height in Blender)
+# IMPORTANT: If you change to a longer or shorter pen, you MUST update this value 
+# to match the new tool tip's Z-height in your Blender scene.
+TOOL_OFFSET = 0.219
  
 # ServoJ Constants
 INTERNAL_T = 0.03        
@@ -54,7 +60,7 @@ class Global:
     pose = None
     thread_exec = None
     stop_evt = None
-    status = "Connected"
+    status = "Standby (Ready)"
 
 # ==============================================================================
 # [4] MATH & LOGIC UTILS
@@ -90,7 +96,8 @@ def update_robot_logic(scene, force_return=False):
     raw_loc, raw_rot = get_target_transform(track)
     
     if force_return or not is_inside_box(track.matrix_world.translation, box):
-        target_loc = Vector(VISUAL_HOME_POS)
+        # 🌟 合併 X, Y (來自實體) 與 Z (來自工具偏移)
+        target_loc = Vector((ROBOT_HOME_POS[0], ROBOT_HOME_POS[1], TOOL_OFFSET))
         target_rot = Euler((math.pi, 0, 0)).to_quaternion()
     else:
         target_loc = raw_loc 
@@ -184,7 +191,7 @@ def execution_thread(ip, stop_evt):
         sock.sendall(b"stopj(2.0)\n")
         sock.close()
     except: pass
-    Global.status = "Connected"
+    Global.status = "Standby (Ready)"
 
 # ==============================================================================
 # [6] UI & OPERATORS
@@ -198,7 +205,6 @@ class UR_OT_Reset(bpy.types.Operator):
         self.report({'INFO'}, "Settings Reset")
         return {'FINISHED'}
 
-# 🌟 新增：將 TCP_Empty 座標歸零的 Operator
 class UR_OT_ZeroPosition(bpy.types.Operator):
     bl_idname, bl_label = "ur.zero_position", "Zero Position"
     bl_description = f"Reset {OBJ_NAME} XYZ location to 0"
@@ -247,7 +253,9 @@ class UR_OT_LiveSync(bpy.types.Operator):
         ctrl = bpy.data.objects.get(ROBOT_CTRL_NAME)
         
         if ctrl:
-            ctrl.matrix_world = mathutils.Matrix.LocRotScale(Vector(VISUAL_HOME_POS), Euler((math.pi, 0, 0)).to_quaternion(), ctrl.matrix_world.to_scale())
+            # 🌟 合併 X, Y (來自實體) 與 Z (來自工具偏移)
+            visual_home = Vector((ROBOT_HOME_POS[0], ROBOT_HOME_POS[1], TOOL_OFFSET))
+            ctrl.matrix_world = mathutils.Matrix.LocRotScale(visual_home, Euler((math.pi, 0, 0)).to_quaternion(), ctrl.matrix_world.to_scale())
             context.view_layer.update() 
         
         if wm.ur_bbox_enable == 'YES': update_robot_logic(context.scene)
@@ -298,8 +306,6 @@ class UR_PT_Panel(bpy.types.Panel):
             col.prop(wm, "ur_rot_smooth", text="Rot Smooth")
 
         layout.separator()
-        
-        # 🌟 新增：將 Zero Position 按鈕放在 Reset Settings 下方
         layout.operator("ur.reset_defaults", icon='LOOP_BACK')
         layout.operator("ur.zero_position", icon='PIVOT_CURSOR')
         layout.separator()
