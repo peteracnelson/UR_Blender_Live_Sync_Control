@@ -46,7 +46,7 @@ The Python script and documentation are included in this repository.
 
 Click the image below to watch the full performance on YouTube:
 
-[![Watch the video](https://img.youtube.com/vi/OmcA1tmKVjU/maxresdefault.jpg)](https://www.youtube.com/watch?v=OmcA1tmKVjU)
+[![Watch the video]([https://img.youtube.com/vi/OmcA1tmKVjU/maxresdefault.jpg)](https://www.youtube.com/watch?v=OmcA1tmKVjU](https://youtu.be/LS-H3p8nBV8)
 
 ---
 
